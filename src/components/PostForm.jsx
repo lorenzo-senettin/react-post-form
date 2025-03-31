@@ -6,8 +6,30 @@ const PostForm = () => {
   const [body, setBody] = useState("");
   const [isPublic, setIsPublic] = useState(false);
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const formData = new FormData();
+    formData.append("author", author);
+    formData.append("title", title);
+    formData.append("body", body);
+    formData.append("public", isPublic);
+
+    fetch("https://67c5b4f3351c081993fb1ab6.mockapi.io/api/posts", {
+      method: "POST",
+      body: formData,
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Data sent and received:", data);
+      })
+      .catch((error) => {
+        console.error("Error while requesting:", error);
+      });
+  };
+
   return (
-    <form>
+    <form onSubmit={handleSubmit}>
       <div>
         <label>Title:</label>
         <input
